@@ -31,6 +31,21 @@ LOCATION:Mammoth Mountain\, CA
 URL:https://www.mammothmountain.com/things-to-do/events/opening-day
 END:VEVENT
 BEGIN:VEVENT
+SUMMARY:Austin Hope Wine Tasting at The Lakefront
+DTSTART;VALUE=DATE:20261118
+DTEND;VALUE=DATE:20261119
+UID:austinhopewinetastingatthelakefront-20261118@mikadatasolutions.com
+DESCRIPTION:Event Hours: 1:00 PM - 4:00 PM\n\nDetails: Nov 18 Wed Austin H
+ ope Wine Tasting at The Lakefront Nov 18 / 1:00 PM - 4:00 PM Enjoy five wi
+ nes from Austin Hope Winery in Paso Robles\, California\, each thoughtfull
+ y paired with a selection of appetizers and amuse-bouches Wine Tasting\n\n
+ Event Link: https://www.mammothmountain.com/things-to-do/events/austin-hop
+ e-wine-dinner
+LOCATION:Mammoth Mountain\, CA
+URL:https://www.mammothmountain.com/things-to-do/events/austin-hope-wine-d
+ inner
+END:VEVENT
+BEGIN:VEVENT
 SUMMARY:Full Moon Snowshoe Tour
 DTSTART;VALUE=DATE:20261121
 DTEND;VALUE=DATE:20261122
