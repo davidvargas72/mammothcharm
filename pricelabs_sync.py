@@ -271,11 +271,11 @@ class PriceLabsExtractor:
             return self._normalize_records(pricing_data)
         raise RuntimeError(f"PriceLabs API request failed: {response.status_code}")
 
-def _determine_availability(self, r: Dict[str, Any], d_str: str) -> bool:
-        # Master check: Only block dates present in Airbnb live iCal or direct_bookings.json
-        if d_str in self.external_blocked:
+    def _determine_availability(self, r: Dict[str, Any], d_str: str) -> bool:
+          # Master check: Only block dates present in Airbnb live iCal or direct_bookings.json
+          if d_str in self.external_blocked:
             return False
-        return True
+          return True
 
     def _apply_orphan_gap_rules(self, records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         if not records:
