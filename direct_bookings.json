@@ -12,5 +12,12 @@
     "end": "2026-12-07",
     "label": "David Santos",
     "type": "Direct Booking"
+  },
+  {
+    "id": "stay-1793660215227",
+    "start": "2026-12-07",
+    "end": "2026-12-18",
+    "label": "David Vargas",
+    "type": "Owner Stay"
   }
 ]
