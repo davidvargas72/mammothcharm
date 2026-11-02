@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Direct Bookings Admin | Mammoth Charm</title>
+<style>
+  :root {
+    --slate-900: #0f172a;
+    --slate-800: #1e293b;
+    --slate-700: #334155;
+    --slate-500: #64748b;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --slate-50:  #f8fafc;
+    --cyan-500:  #00c4b3;
+    --cyan-600:  #00a89a;
+    --red-600:   #dc2626;
+    --red-50:    #fef2f2;
+    --green-700: #15803d;
+    --green-50:  #f0fdf4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  body { background: var(--slate-100); color: var(--slate-800); min-height: 100vh; }
+
+  .admin-header { background: var(--slate-900); color: #fff; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .brand-title { font-size: 1.25rem; font-weight: 900; letter-spacing: 0.05em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+  .badge-admin { background: var(--cyan-500); color: var(--slate-900); font-size: 0.72rem; padding: 3px 8px; border-radius: 4px; font-weight: 800; }
+  .header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .btn-outline { background: transparent; border: 1px solid #475569; color: #cbd5e1; padding: 7px 13px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; text-decoration: none; }
+  .btn-outline:hover { border-color: var(--cyan-500); color: var(--cyan-500); }
+
+  .login-wrap { max-width: 440px; margin: 60px auto; padding: 0 16px; }
+  .card { background: #fff; border: 1px solid var(--slate-200); border-radius: 10px; padding: 26px; box-shadow: 0 4px 14px rgba(15,23,42,0.06); }
+  .card-title { font-size: 1.25rem; font-weight: 800; color: var(--slate-900); margin-bottom: 6px; }
+  .card-sub { font-size: 0.86rem; color: var(--slate-500); margin-bottom: 20px; line-height: 1.45; }
+
+  .form-group { margin-bottom: 14px; }
+  .form-label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--slate-700); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.03em; }
+  .form-input, .form-select { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.92rem; color: var(--slate-900); }
+  .form-input:focus, .form-select:focus { outline: 2px solid var(--cyan-500); border-color: transparent; }
+
+  .remember-row { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--slate-700); margin: 12px 0 18px; font-weight: 600; cursor: pointer; }
+  .btn-primary { width: 100%; background: var(--cyan-500); color: var(--slate-900); border: none; padding: 11px 18px; border-radius: 6px; font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: background 0.15s; }
+  .btn-primary:hover { background: var(--cyan-600); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .dashboard { display: none; max-width: 920px; margin: 28px auto 60px; padding: 0 16px; flex-direction: column; gap: 22px; }
+  .status-banner { display: none; padding: 12px 16px; border-radius: 8px; font-size: 0.88rem; font-weight: 700; }
+  .status-banner.success { display: block; background: var(--green-50); color: var(--green-700); border: 1px solid #86efac; }
+  .status-banner.error { display: block; background: var(--red-50); color: var(--red-600); border: 1px solid #fca5a5; }
+
+  .form-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 12px; align-items: end; }
+  .form-actions { display: flex; gap: 10px; margin-top: 14px; }
+  .btn-cancel { background: var(--slate-200); color: var(--slate-800); border: none; padding: 11px 18px; border-radius: 6px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: none; }
+
+  .bookings-list { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+  .booking-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border: 1px solid var(--slate-200); border-radius: 8px; background: var(--slate-50); flex-wrap: wrap; gap: 12px; }
+  .b-info { display: flex; flex-direction: column; gap: 3px; }
+  .b-label { font-size: 1rem; font-weight: 800; color: var(--slate-900); display: flex; align-items: center; gap: 8px; }
+  .b-type { font-size: 0.7rem; font-weight: 800; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; }
+  .b-type.direct { background: #dcfce7; color: #166534; }
+  .b-type.owner { background: #e0f2fe; color: #0369a1; }
+  .b-dates { font-size: 0.88rem; color: var(--slate-700); font-weight: 600; }
+  .b-actions { display: flex; gap: 8px; }
+  .btn-sm { padding: 6px 12px; border-radius: 5px; font-size: 0.8rem; font-weight: 700; cursor: pointer; border: 1px solid transparent; }
+  .btn-edit { background: #fff; border-color: #cbd5e1; color: var(--slate-800); }
+  .btn-edit:hover { border-color: var(--slate-800); }
+  .btn-delete { background: var(--red-50); border-color: #fecaca; color: var(--red-600); }
+  .btn-delete:hover { background: #fee2e2; }
+
+  .ics-box { background: var(--slate-50); border: 1px dashed #94a3b8; border-radius: 6px; padding: 12px 14px; font-size: 0.84rem; color: var(--slate-700); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+  .ics-url { font-family: monospace; font-weight: 700; color: var(--slate-900); word-break: break-all; }
+
+  @media (max-width: 720px) {
+    .form-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="admin-header">
+    <div class="brand-title">
+      MAMMOTH CHARM <span class="badge-admin">DIRECT BOOKINGS ADMIN</span>
+    </div>
+    <div class="header-actions">
+      <a href="calendar.html" target="_blank" class="btn-outline">Guest Calendar &nearr;</a>
+      <a href="calendar_cleaner.html" target="_blank" class="btn-outline">Cleaning Schedule &nearr;</a>
+      <button class="btn-outline" id="logoutBtn" onclick="logout()" style="display:none;">Lock / Sign Out</button>
+    </div>
+  </header>
+
+  <div class="login-wrap" id="loginView">
+    <div class="card">
+      <h1 class="card-title">Admin Sign In</h1>
+      <p class="card-sub">Enter your admin credentials and GitHub Personal Access Token to manage direct bookings and owner stays.</p>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label">Username</label>
+          <input type="text" id="loginUser" class="form-input" placeholder="Username" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Admin Password</label>
+          <input type="password" id="loginPass" class="form-input" placeholder="Password" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">GitHub Personal Access Token (PAT)</label>
+          <input type="password" id="loginToken" class="form-input" placeholder="ghp_... or github_pat_..." required>
+        </div>
+        <label class="remember-row">
+          <input type="checkbox" id="rememberMe" checked>
+          Remember credentials on this device
+        </label>
+        <button type="submit" class="btn-primary">Unlock Admin Portal</button>
+        <div id="loginError" style="color:var(--red-600); font-size:0.84rem; font-weight:700; margin-top:10px; display:none;"></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="dashboard" id="dashboardView">
+    <div id="statusBanner" class="status-banner"></div>
+
+    <div class="card">
+      <h2 class="card-title" id="formHeader">Add Direct Booking or Owner Stay</h2>
+      <p class="card-sub">Adding, editing, or deleting a stay automatically updates <strong>calendar.html</strong>, <strong>calendar_discounted.html</strong>, <strong>calendar_cleaner.html</strong>, and <strong>direct_bookings.ics</strong> within ~30 seconds.</p>
+
+      <form onsubmit="saveBooking(event)">
+        <input type="hidden" id="editIndex" value="-1">
+        <div class="form-grid">
+          <div>
+            <label class="form-label">Guest Name / Stay Label *</label>
+            <input type="text" id="stayLabel" class="form-input" placeholder="e.g., David Santos" required>
+          </div>
+          <div>
+            <label class="form-label">Stay Type</label>
+            <select id="stayType" class="form-select">
+              <option value="Direct Booking">Direct Booking</option>
+              <option value="Owner Stay">Owner Stay</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Check-In Date *</label>
+            <input type="date" id="checkIn" class="form-input" required>
+          </div>
+          <div>
+            <label class="form-label">Check-Out Date *</label>
+            <input type="date" id="checkOut" class="form-input" required>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="saveBtn">Add Booking &amp; Sync Calendars</button>
+          <button type="button" class="btn-cancel" id="cancelEditBtn" onclick="resetForm()">Cancel Edit</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:6px;">
+        <h2 class="card-title" style="margin:0;">Active Direct Bookings &amp; Owner Stays</h2>
+        <button class="btn-sm btn-edit" onclick="loadBookingsFromGitHub()">&#8635; Refresh List</button>
+      </div>
+      <p class="card-sub" style="margin-bottom:14px;">Back-to-back stays listed here are kept separate so Same-Day Turnovers always appear on your Cleaning Schedule.</p>
+
+      <div id="bookingsContainer" class="bookings-list">
+        <div style="color:var(--slate-500); font-size:0.9rem;">Loading bookings...</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">Airbnb iCal Export Link (direct_bookings.ics)</h2>
+      <p class="card-sub" style="margin-bottom:8px;">Paste this URL into Airbnb's <strong>Calendar &rarr; Availability &rarr; Connect Calendar &rarr; Other Website</strong> so Airbnb automatically blocks your direct bookings and owner stays:</p>
+      <div class="ics-box">
+        <span class="ics-url" id="icsUrlDisplay">https://davidvargas72.github.io/mammothcharm/direct_bookings.ics</span>
+        <button class="btn-sm btn-edit" onclick="copyIcsUrl()">Copy Link</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const ADMIN_USERNAME = "david";
+  const ADMIN_PASSWORD = "Mammoth2026!";
+  const GITHUB_OWNER   = "davidvargas72";
+  const GITHUB_REPO    = "mammothcharm";
+  const JSON_FILEPATH  = "direct_bookings.json";
+  const WORKFLOW_FILE  = "pricelabs_sync.yml";
+
+  let githubToken = "";
+  let currentBookings = [];
+  let currentFileSha = null;
+
+  function showStatus(msg, type = "success") {
+    const banner = document.getElementById("statusBanner");
+    banner.className = "status-banner " + type;
+    banner.innerText = msg;
+  }
+
+  function handleLogin(e) {
+    e.preventDefault();
+    const u = document.getElementById("loginUser").value.trim();
+    const p = document.getElementById("loginPass").value;
+    const t = document.getElementById("loginToken").value.trim();
+    const err = document.getElementById("loginError");
+
+    if (u.toLowerCase() !== ADMIN_USERNAME.toLowerCase() || p !== ADMIN_PASSWORD) {
+      err.style.display = "block";
+      err.innerText = "Invalid username or admin password.";
+      return;
+    }
+
+    githubToken = t;
+    if (document.getElementById("rememberMe").checked) {
+      localStorage.setItem("mc_admin_user", u);
+      localStorage.setItem("mc_admin_pass", p);
+      localStorage.setItem("mc_admin_pat", t);
+    } else {
+      localStorage.removeItem("mc_admin_user");
+      localStorage.removeItem("mc_admin_pass");
+      localStorage.removeItem("mc_admin_pat");
+    }
+
+    err.style.display = "none";
+    unlockDashboard();
+  }
+
+  function unlockDashboard() {
+    document.getElementById("loginView").style.display = "none";
+    document.getElementById("dashboardView").style.display = "flex";
+    document.getElementById("logoutBtn").style.display = "inline-block";
+    document.getElementById("icsUrlDisplay").innerText = `${window.location.origin}${window.location.pathname.replace(/\/[^\/]*$/, '')}/direct_bookings.ics`;
+    loadBookingsFromGitHub();
+  }
+
+  function logout() {
+    localStorage.removeItem("mc_admin_user");
+    localStorage.removeItem("mc_admin_pass");
+    localStorage.removeItem("mc_admin_pat");
+    githubToken = "";
+    document.getElementById("dashboardView").style.display = "none";
+    document.getElementById("logoutBtn").style.display = "none";
+    document.getElementById("loginView").style.display = "block";
+  }
+
+  async function loadBookingsFromGitHub() {
+    const container = document.getElementById("bookingsContainer");
+    try {
+      const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${JSON_FILEPATH}?t=${Date.now()}`;
+      const res = await fetch(url, {
+        headers: {
+          "Authorization": `Bearer ${githubToken}`,
+          "Accept": "application/vnd.github+json"
+        }
+      });
+
+      if (res.status === 404) {
+        currentBookings = [];
+        currentFileSha = null;
+        renderBookingsList();
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(`GitHub API returned ${res.status}. Verify your Personal Access Token has 'repo' permissions.`);
+      }
+
+      const data = await res.json();
+      currentFileSha = data.sha;
+      const decoded = atob(data.content.replace(/\n/g, ""));
+      currentBookings = JSON.parse(decoded || "[]");
+      currentBookings.sort((a, b) => (a.start > b.start ? 1 : -1));
+      renderBookingsList();
+    } catch (err) {
+      showStatus(err.message, "error");
+      container.innerHTML = `<div style="color:var(--red-600); font-weight:700;">Could not load ${JSON_FILEPATH}. Check your GitHub token.</div>`;
+    }
+  }
+
+  function formatReadableDate(dStr) {
+    const [y, m, d] = dStr.split("-").map(Number);
+    const dt = new Date(y, m - 1, d);
+    return dt.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+  }
+
+  function renderBookingsList() {
+    const container = document.getElementById("bookingsContainer");
+    if (!currentBookings || currentBookings.length === 0) {
+      container.innerHTML = `<div style="color:var(--slate-500); font-size:0.9rem; padding:8px 0;">No manual direct bookings or owner stays currently scheduled.</div>`;
+      return;
+    }
+
+    container.innerHTML = currentBookings.map((b, idx) => {
+      const isOwner = (b.type === "Owner Stay") || (b.label && b.label.toLowerCase().includes("owner"));
+      const badgeClass = isOwner ? "owner" : "direct";
+      const badgeText = b.type || (isOwner ? "Owner Stay" : "Direct Booking");
+      return `
+        <div class="booking-item">
+          <div class="b-info">
+            <div class="b-label">
+              <span>${b.label}</span>
+              <span class="b-type ${badgeClass}">${badgeText}</span>
+            </div>
+            <div class="b-dates">
+              Check-In: ${formatReadableDate(b.start)} &rarr; Check-Out: ${formatReadableDate(b.end)}
+            </div>
+          </div>
+          <div class="b-actions">
+            <button class="btn-sm btn-edit" onclick="editBooking(${idx})">Edit</button>
+            <button class="btn-sm btn-delete" onclick="deleteBooking(${idx})">Delete</button>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  async function saveBooking(e) {
+    e.preventDefault();
+    const label = document.getElementById("stayLabel").value.trim();
+    const type  = document.getElementById("stayType").value;
+    const start = document.getElementById("checkIn").value;
+    const end   = document.getElementById("checkOut").value;
+    const editIdx = parseInt(document.getElementById("editIndex").value, 10);
+
+    if (end <= start) {
+      showStatus("Check-Out date must be after Check-In date.", "error");
+      return;
+    }
+
+    const entry = {
+      id: editIdx >= 0 && currentBookings[editIdx].id ? currentBookings[editIdx].id : "stay-" + Date.now(),
+      start: start,
+      end: end,
+      label: label,
+      type: type
+    };
+
+    const updatedList = [...currentBookings];
+    if (editIdx >= 0) {
+      updatedList[editIdx] = entry;
+    } else {
+      updatedList.push(entry);
+    }
+    updatedList.sort((a, b) => (a.start > b.start ? 1 : -1));
+
+    await commitBookingsToGitHub(updatedList, `${editIdx >= 0 ? 'Update' : 'Add'} booking: ${label} (${start} to ${end})`);
+    resetForm();
+  }
+
+  function editBooking(idx) {
+    const b = currentBookings[idx];
+    document.getElementById("editIndex").value = idx;
+    document.getElementById("stayLabel").value = b.label;
+    document.getElementById("stayType").value = b.type || "Direct Booking";
+    document.getElementById("checkIn").value = b.start;
+    document.getElementById("checkOut").value = b.end;
+    document.getElementById("formHeader").innerText = `Edit Stay: ${b.label}`;
+    document.getElementById("saveBtn").innerText = "Save Changes & Sync Calendars";
+    document.getElementById("cancelEditBtn").style.display = "inline-block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  async function deleteBooking(idx) {
+    const b = currentBookings[idx];
+    if (!confirm(`Delete "${b.label}" (${b.start} to ${b.end})? This will immediately reopen those dates on your calendars.`)) {
+      return;
+    }
+    const updatedList = currentBookings.filter((_, i) => i !== idx);
+    await commitBookingsToGitHub(updatedList, `Delete cancelled booking: ${b.label} (${b.start} to ${b.end})`);
+  }
+
+  function resetForm() {
+    document.getElementById("editIndex").value = "-1";
+    document.getElementById("stayLabel").value = "";
+    document.getElementById("stayType").value = "Direct Booking";
+    document.getElementById("checkIn").value = "";
+    document.getElementById("checkOut").value = "";
+    document.getElementById("formHeader").innerText = "Add Direct Booking or Owner Stay";
+    document.getElementById("saveBtn").innerText = "Add Booking & Sync Calendars";
+    document.getElementById("cancelEditBtn").style.display = "none";
+  }
+
+  async function commitBookingsToGitHub(updatedList, commitMessage) {
+    const btn = document.getElementById("saveBtn");
+    btn.disabled = true;
+    btn.innerText = "Saving & Triggering Sync...";
+
+    try {
+      const jsonString = JSON.stringify(updatedList, null, 2) + "\n";
+      const base64Content = btoa(unescape(encodeURIComponent(jsonString)));
+
+      const payload = {
+        message: commitMessage,
+        content: base64Content
+      };
+      if (currentFileSha) {
+        payload.sha = currentFileSha;
+      }
+
+      const putUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${JSON_FILEPATH}`;
+      const res = await fetch(putUrl, {
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${githubToken}`,
+          "Accept": "application/vnd.github+json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.message || `Failed to save ${JSON_FILEPATH}`);
+      }
+
+      const result = await res.json();
+      currentFileSha = result.content.sha;
+      currentBookings = updatedList;
+      renderBookingsList();
+
+      await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${WORKFLOW_FILE}/dispatches`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${githubToken}`,
+          "Accept": "application/vnd.github+json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ ref: "main" })
+      });
+
+      showStatus("Saved! GitHub Actions is now rebuilding your Guest & Cleaner calendars (~30 seconds).", "success");
+    } catch (err) {
+      showStatus("Error saving booking: " + err.message, "error");
+    } finally {
+      btn.disabled = false;
+      btn.innerText = document.getElementById("editIndex").value === "-1" ? "Add Booking & Sync Calendars" : "Save Changes & Sync Calendars";
+    }
+  }
+
+  function copyIcsUrl() {
+    const text = document.getElementById("icsUrlDisplay").innerText;
+    navigator.clipboard.writeText(text);
+    showStatus("Copied direct_bookings.ics URL to clipboard!", "success");
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const savedU = localStorage.getItem("mc_admin_user");
+    const savedP = localStorage.getItem("mc_admin_pass");
+    const savedT = localStorage.getItem("mc_admin_pat");
+    if (savedU && savedP === ADMIN_PASSWORD && savedT) {
+      githubToken = savedT;
+      unlockDashboard();
+    }
+  });
+</script>
+</body>
+</html>
