@@ -271,40 +271,10 @@ class PriceLabsExtractor:
             return self._normalize_records(pricing_data)
         raise RuntimeError(f"PriceLabs API request failed: {response.status_code}")
 
-    def _determine_availability(self, r: Dict[str, Any], d_str: str) -> bool:
+def _determine_availability(self, r: Dict[str, Any], d_str: str) -> bool:
+        # Master check: Only block dates present in Airbnb live iCal or direct_bookings.json
         if d_str in self.external_blocked:
             return False
-        if "occupancy" in r and r["occupancy"] is not None:
-            try:
-                occ = float(r["occupancy"])
-                if occ >= 1.0:
-                    return False
-                if occ == 0.0:
-                    return True
-            except (ValueError, TypeError):
-                pass
-        for key in ("booking_status", "status", "reservation_status"):
-            if key in r and r[key]:
-                val_str = str(r[key]).strip().lower()
-                if val_str in ("booked", "reserved", "unavailable", "blocked", "closed"):
-                    return False
-                if val_str in ("available", "open"):
-                    return True
-        if "blocked" in r and r["blocked"] is not None:
-            b_val = r["blocked"]
-            if (isinstance(b_val, bool) and b_val) or (isinstance(b_val, (int, float)) and b_val > 0) or str(b_val).strip().lower() in ("true", "1", "yes"):
-                return False
-        for key in ("available", "availability", "is_available"):
-            if key in r and r[key] is not None:
-                a_val = r[key]
-                if isinstance(a_val, bool):
-                    return a_val
-                if isinstance(a_val, (int, float)):
-                    return a_val > 0
-                if str(a_val).strip().lower() in ("false", "0", "no", "unavailable", "booked"):
-                    return False
-                if str(a_val).strip().lower() in ("true", "1", "yes", "available"):
-                    return True
         return True
 
     def _apply_orphan_gap_rules(self, records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
