@@ -2,9 +2,12 @@ name: PriceLabs Daily Pricing Sync
 
 on:
   schedule:
-    # Runs daily at 14:00 UTC (7:00 AM PDT / 6:00 AM PST)
     - cron: '0 */1 * * *'
   workflow_dispatch:
+  push:
+    paths:
+      - 'pricelabs_sync.py'
+      - 'direct_bookings.json'
 
 permissions:
   contents: write
@@ -40,6 +43,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add *.ics *.html
+          git add calendar.html calendar_discounted.html calendar_cleaner.html *.ics
           # Only commit if the file actually changed
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Automated update of pricelabs_pricing.ics" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Automated update of calendars and iCal feeds" && git push)
