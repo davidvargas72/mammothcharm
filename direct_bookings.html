@@ -130,7 +130,7 @@
         <div class="form-grid">
           <div>
             <label class="form-label">Guest Name / Stay Label *</label>
-            <input type="text" id="stayLabel" class="form-input" placeholder="e.g., David Santos" required>
+            <input type="text" id="stayLabel" class="form-input" placeholder="Guest Name" required>
           </div>
           <div>
             <label class="form-label">Stay Type</label>
@@ -168,8 +168,7 @@
     </div>
 
     <div class="card">
-      <h2 class="card-title">Airbnb iCal Export Link (direct_bookings.ics)</h2>
-      <p class="card-sub" style="margin-bottom:8px;">Paste this URL into Airbnb's <strong>Calendar &rarr; Availability &rarr; Connect Calendar &rarr; Other Website</strong> so Airbnb automatically blocks your direct bookings and owner stays:</p>
+      <h2 class="card-title">iCal Export Link (direct_bookings.ics)</h2>
       <div class="ics-box">
         <span class="ics-url" id="icsUrlDisplay">https://davidvargas72.github.io/mammothcharm/direct_bookings.ics</span>
         <button class="btn-sm btn-edit" onclick="copyIcsUrl()">Copy Link</button>
@@ -183,7 +182,6 @@
   const GITHUB_OWNER   = "davidvargas72";
   const GITHUB_REPO    = "mammothcharm";
   const JSON_FILEPATH  = "direct_bookings.json";
-  const WORKFLOW_FILE  = "pricelabs_sync.yml";
 
   let githubToken = "";
   let currentBookings = [];
@@ -415,16 +413,6 @@
       currentFileSha = result.content.sha;
       currentBookings = updatedList;
       renderBookingsList();
-
-      await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${WORKFLOW_FILE}/dispatches`, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${githubToken}`,
-          "Accept": "application/vnd.github+json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ ref: "main" })
-      });
 
       showStatus("Saved! GitHub Actions is now rebuilding your Guest & Cleaner calendars (~30 seconds).", "success");
     } catch (err) {
