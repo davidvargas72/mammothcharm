@@ -12,6 +12,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: calendar-sync
+  cancel-in-progress: true
+
 jobs:
   sync-pricing:
     runs-on: ubuntu-latest
@@ -44,5 +48,4 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add calendar.html calendar_discounted.html calendar_cleaner.html *.ics
-          # Only commit if the file actually changed
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Automated update of calendars and iCal feeds" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Automated update of calendars and iCal feeds" && git pull --rebase origin main && git push)
