@@ -4,33 +4,6 @@ PRODID:-//Mika Data Solutions//Mammoth Mountain Events//EN
 X-WR-CALNAME:Mammoth Mountain Events
 X-WR-TIMEZONE:America/Los_Angeles
 BEGIN:VEVENT
-SUMMARY:Mammoth Wedding Expo
-DTSTART;VALUE=DATE:20261107
-DTEND;VALUE=DATE:20261108
-UID:mammothweddingexpo-20261107@mikadatasolutions.com
-DESCRIPTION:Event Hours: 5:30 PM - 7:30 PM\n\nDetails: Nov 7 Sat Mammoth W
- edding Expo Nov 7 / 5:30 PM - 7:30 PM Start planning your dream mountain w
- edding with an evening of food\, music\, samples\, inspiration\, and a cha
- nce to meet the Mammoth Mountain Weddings team and local vendors. Wedding 
- Expo\n\nEvent Link: https://www.mammothmountain.com/things-to-do/events/we
- dding-expo
-LOCATION:Mammoth Mountain\, CA
-URL:https://www.mammothmountain.com/things-to-do/events/wedding-expo
-END:VEVENT
-BEGIN:VEVENT
-SUMMARY:26/27 Opening Day
-DTSTART;VALUE=DATE:20261113
-DTEND;VALUE=DATE:20261114
-UID:2627openingday-20261113@mikadatasolutions.com
-DESCRIPTION:Event Hours: 8:30 AM - 4:00 PM\n\nDetails: Nov 13 Fri 26/27 Op
- ening Day Nov 13 / 8:30 AM - 4:00 PM Kick off the 26/27 winter season with
-  us. Take some turns and celebrate winter with good times and good friends
-  at Mammoth Mountain. Opening Day\n\nEvent Link: https://www.mammothmounta
- in.com/things-to-do/events/opening-day
-LOCATION:Mammoth Mountain\, CA
-URL:https://www.mammothmountain.com/things-to-do/events/opening-day
-END:VEVENT
-BEGIN:VEVENT
 SUMMARY:Austin Hope Wine Tasting at The Lakefront
 DTSTART;VALUE=DATE:20261118
 DTEND;VALUE=DATE:20261119
