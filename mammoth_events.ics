@@ -89,6 +89,21 @@ URL:https://www.mammothmountain.com/things-to-do/events/tamarack-sunset-sn
  owshoe-tours
 END:VEVENT
 BEGIN:VEVENT
+SUMMARY:Woolly's After Hours
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20261128
+UID:woollysafterhours-20261127@mikadatasolutions.com
+DESCRIPTION:Event Hours: 4:00 PM - 6:00 PM\n\nDetails: Nov 27 Fri Woolly's
+  After Hours Nov 27 / 4:00 PM - 6:00 PM Keep the fun going at Woolly’s A
+ dventure Summit with two extra hours of unlimited Mountain Coaster rides o
+ n four select dates this winter. More laps\, more thrills\, and more time 
+ for adventure. After Hours\n\nEvent Link: https://www.mammothmountain.com/
+ things-to-do/events/woollys-after-hours
+LOCATION:Mammoth Mountain\, CA
+URL:https://www.mammothmountain.com/things-to-do/events/woollys-after-hour
+ s
+END:VEVENT
+BEGIN:VEVENT
 SUMMARY:Holiday Tree Lighting in The Village
 DTSTART;VALUE=DATE:20261127
 DTEND;VALUE=DATE:20261128
@@ -315,6 +330,21 @@ URL:https://www.mammothmountain.com/things-to-do/events/unbound-series/rai
  l-jam-2
 END:VEVENT
 BEGIN:VEVENT
+SUMMARY:Woolly's After Hours
+DTSTART;VALUE=DATE:20261229
+DTEND;VALUE=DATE:20261230
+UID:woollysafterhours-20261229@mikadatasolutions.com
+DESCRIPTION:Event Hours: 4:00 PM - 6:00 PM\n\nDetails: Dec 29 Tue Woolly's
+  After Hours Dec 29 / 4:00 PM - 6:00 PM Keep the fun going at Woolly’s A
+ dventure Summit with two extra hours of unlimited Mountain Coaster rides o
+ n four select dates this winter. More laps\, more thrills\, and more time 
+ for adventure. After Hours\n\nEvent Link: https://www.mammothmountain.com/
+ things-to-do/events/woollys-after-hours
+LOCATION:Mammoth Mountain\, CA
+URL:https://www.mammothmountain.com/things-to-do/events/woollys-after-hour
+ s
+END:VEVENT
+BEGIN:VEVENT
 SUMMARY:Unbound Series Rail Jam 3
 DTSTART;VALUE=DATE:20261230
 DTEND;VALUE=DATE:20261231
@@ -401,6 +431,21 @@ DESCRIPTION:Event Hours: 3:00 PM - 4:45 PM\n\nDetails: Jan 16 Sat Sunset S
 LOCATION:Mammoth Mountain\, CA
 URL:https://www.mammothmountain.com/things-to-do/events/tamarack-sunset-sn
  owshoe-tours
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Woolly's After Hours
+DTSTART;VALUE=DATE:20270116
+DTEND;VALUE=DATE:20270117
+UID:woollysafterhours-20270116@mikadatasolutions.com
+DESCRIPTION:Event Hours: 4:00 PM - 6:00 PM\n\nDetails: Jan 16 Sat Woolly's
+  After Hours Jan 16 / 4:00 PM - 6:00 PM Keep the fun going at Woolly’s A
+ dventure Summit with two extra hours of unlimited Mountain Coaster rides o
+ n four select dates this winter. More laps\, more thrills\, and more time 
+ for adventure. After Hours\n\nEvent Link: https://www.mammothmountain.com/
+ things-to-do/events/woollys-after-hours
+LOCATION:Mammoth Mountain\, CA
+URL:https://www.mammothmountain.com/things-to-do/events/woollys-after-hour
+ s
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Unbound Series Slalom & Giant Slalom 1
@@ -576,18 +621,19 @@ URL:https://www.mammothmountain.com/things-to-do/events/tamarack-sunset-sn
  owshoe-tours
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:The Futures Tour
-DTSTART;VALUE=DATE:20270215
-DTEND;VALUE=DATE:20270219
-UID:thefuturestour-20270215@mikadatasolutions.com
-DESCRIPTION:Event Hours: Feb 15 (8:00 AM) - Feb 18 (4:00 PM)\n\nDetails: F
- eb 15 Mon The Futures Tour Feb 15 / 8:00 AM - Feb 18 / 4:00 PM The Futures
-  Tour is returning to Mammoth Mountain. Catch the action in Unbound's Sout
- h Park and Halfpipe as amateur athletes compete for a chance to join the e
- lites. The Futures Tour\n\nEvent Link: https://www.mammothmountain.com/thi
- ngs-to-do/events/the-futures-tour
+SUMMARY:Woolly's After Hours
+DTSTART;VALUE=DATE:20270214
+DTEND;VALUE=DATE:20270215
+UID:woollysafterhours-20270214@mikadatasolutions.com
+DESCRIPTION:Event Hours: 5:00 PM - 7:00 PM\n\nDetails: Feb 14 Sun Woolly's
+  After Hours Feb 14 / 5:00 PM - 7:00 PM Keep the fun going at Woolly’s A
+ dventure Summit with two extra hours of unlimited Mountain Coaster rides o
+ n four select dates this winter. More laps\, more thrills\, and more time 
+ for adventure. After Hours\n\nEvent Link: https://www.mammothmountain.com/
+ things-to-do/events/woollys-after-hours
 LOCATION:Mammoth Mountain\, CA
-URL:https://www.mammothmountain.com/things-to-do/events/the-futures-tour
+URL:https://www.mammothmountain.com/things-to-do/events/woollys-after-hour
+ s
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Full Moon Snowshoe Tour
@@ -616,6 +662,20 @@ DESCRIPTION:Event Hours: 6:30 PM - 8:15 PM\n\nDetails: Feb 18 Thu Full Moo
 LOCATION:Mammoth Mountain\, CA
 URL:https://www.mammothmountain.com/things-to-do/events/tamarack-full-moon
  -snowshoe-tours
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Arc'teryx Academy
+DTSTART;VALUE=DATE:20270219
+DTEND;VALUE=DATE:20270222
+UID:arcteryxacademy-20270219@mikadatasolutions.com
+DESCRIPTION:Event Hours: Feb 19 (8:00 AM) - Feb 21 (6:00 PM)\n\nDetails: F
+ eb 19 Fri Arc'teryx Academy Feb 19 / 8:00 AM - Feb 21 / 6:00 PM Arc'teryx 
+ Backcountry Academy is an opportunity to be mentored by world-class mounta
+ in guide athletes. From clinics to films\, music and dancing\, take the jo
+ urney with us. Arc'teryx Academy\n\nEvent Link: https://www.mammothmountai
+ n.com/things-to-do/events/arcteryx-academy
+LOCATION:Mammoth Mountain\, CA
+URL:https://www.mammothmountain.com/things-to-do/events/arcteryx-academy
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Full Moon Snowshoe Tour
