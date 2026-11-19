@@ -987,7 +987,11 @@ class CleanerCalendarBuilder:
         records_json = json.dumps(daily_records)
         windows_json = json.dumps(upcoming_windows)
         now_local = datetime.now(ZoneInfo(TIMEZONE_STR)) if ZoneInfo else datetime.utcnow() - timedelta(hours=7)
-        updated_str = f"{now_local.strftime('%b %d, %Y')} at {now_local.strftime('%I:%M %p').lstrip('0').lower()}"
+        es_months_short = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
+        time_str = now_local.strftime('%I:%M %p').lstrip('0').lower()
+        updated_str_en = f"{now_local.strftime('%b %d, %Y')} at {time_str}"
+        updated_str_es = f"{now_local.day} {es_months_short[now_local.month - 1]} {now_local.year}, {time_str}"
+        updated_json = json.dumps({"en": f"Updated: {updated_str_en}", "es": f"Actualizado: {updated_str_es}"})
 
         holiday_map = {}
         for y in range(now_local.year, now_local.year + 3):
@@ -1011,9 +1015,13 @@ class CleanerCalendarBuilder:
   * {{ box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }}
   body {{ margin: 0; padding: 0; background: transparent; color: #1e293b; overflow-x: hidden; width: 100%; }}
   .dashboard-wrap {{ width: 100%; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }}
-  .page-banner {{ text-align: center; padding: 18px 12px 4px; }}
+  .page-banner {{ position: relative; text-align: center; padding: 18px 12px 4px; }}
   .page-banner-title {{ font-size: 1.85rem; font-weight: 900; color: #00a89a; text-transform: uppercase; letter-spacing: 0.03em; margin: 0 0 4px; }}
   .page-banner-sub {{ font-size: 0.98rem; color: #475569; font-weight: 600; margin: 0; }}
+  .lang-toggle {{ position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: inline-flex; align-items: center; background: #0f172a; border-radius: 999px; padding: 3px; gap: 2px; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14); }}
+  .lang-btn {{ border: none; background: transparent; color: #cbd5e1; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.04em; padding: 6px 11px; border-radius: 999px; cursor: pointer; transition: background 0.15s, color 0.15s; line-height: 1; }}
+  .lang-btn:hover {{ color: #ffffff; }}
+  .lang-btn.active {{ background: #00c4b3; color: #0f172a; }}
   .windows-card {{ border: 1px solid #cbd5e1; border-radius: 6px; background: #ffffff; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }}
   .windows-header {{ background: #0f172a; color: #ffffff; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }}
   .windows-title {{ font-size: 1.05rem; font-weight: 800; margin: 0; letter-spacing: 0.02em; text-transform: uppercase; }}
@@ -1065,8 +1073,11 @@ class CleanerCalendarBuilder:
   .holiday-list {{ margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 12px 24px; }}
   .holiday-item {{ display: flex; align-items: center; gap: 6px; font-weight: 500; }}
   @media (max-width: 650px) {{
+    .page-banner {{ padding: 14px 12px 4px; }}
     .page-banner-title {{ font-size: 1.35rem; }}
     .page-banner-sub {{ font-size: 0.84rem; }}
+    .lang-toggle {{ position: static; transform: none; margin-top: 10px; }}
+    .lang-btn {{ font-size: 0.72rem; padding: 5px 10px; }}
     .windows-header {{ padding: 10px 12px; }}
     .windows-title {{ font-size: 0.92rem; }}
     .windows-list {{ padding: 10px; gap: 6px; }}
@@ -1098,13 +1109,17 @@ class CleanerCalendarBuilder:
 <div class="dashboard-wrap">
 
   <div class="page-banner">
-    <h1 class="page-banner-title">CLEANING SCHEDULE</h1>
-    <p class="page-banner-sub">Live Turnover &amp; Availability Calendar</p>
+    <h1 class="page-banner-title" id="bannerTitle">CLEANING SCHEDULE</h1>
+    <p class="page-banner-sub" id="bannerSub">Live Turnover &amp; Availability Calendar</p>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" class="lang-btn active" id="langBtnEn" onclick="setLanguage('en')" aria-pressed="true">EN</button>
+      <button type="button" class="lang-btn" id="langBtnEs" onclick="setLanguage('es')" aria-pressed="false">ES</button>
+    </div>
   </div>
 
   <div class="windows-card">
     <div class="windows-header">
-      <h2 class="windows-title">Upcoming Cleaning Windows</h2>
+      <h2 class="windows-title" id="windowsTitle">Upcoming Cleaning Windows</h2>
     </div>
     <div class="windows-list" id="windowsList"></div>
   </div>
@@ -1114,20 +1129,20 @@ class CleanerCalendarBuilder:
       <h2 class="cal-title" id="monthLabel">Loading...</h2>
       <div class="nav-btns">
         <button class="nav-btn" id="prevBtn" onclick="changeMonth(-1)" style="display: none;">&#8592; Prev</button>
-        <button class="nav-btn" onclick="goToday()">Today</button>
-        <button class="nav-btn" onclick="changeMonth(1)">Next &#8594;</button>
+        <button class="nav-btn" id="todayBtn" onclick="goToday()">Today</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeMonth(1)">Next &#8594;</button>
       </div>
     </div>
     <div class="legend">
       <div class="legend-items">
-        <span class="legend-pill pill-open">Open</span>
-        <span class="legend-pill pill-booked">Booked</span>
-        <span class="legend-pill pill-turnover">Same-Day Turnover</span>
-        <span class="pill-holiday">★ US Holiday</span>
+        <span class="legend-pill pill-open" id="legendOpen">Open</span>
+        <span class="legend-pill pill-booked" id="legendBooked">Booked</span>
+        <span class="legend-pill pill-turnover" id="legendTurnover">Same-Day Turnover</span>
+        <span class="pill-holiday" id="legendHoliday">★ US Holiday</span>
       </div>
-      <span class="updated-label">Updated: {updated_str}</span>
+      <span class="updated-label" id="updatedLabel">Updated: {updated_str_en}</span>
     </div>
-    <div class="weekdays">
+    <div class="weekdays" id="weekdaysRow">
       <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
     </div>
     <div class="days-grid" id="daysGrid"></div>
@@ -1140,8 +1155,108 @@ class CleanerCalendarBuilder:
   const rawData = {records_json};
   const upcomingWindows = {windows_json};
   const holidayCatalog = {holidays_json};
+  const updatedText = {updated_json};
   const dataMap = {{}};
   rawData.forEach(item => {{ dataMap[item.date] = item; }});
+
+  const LANG_STORAGE_KEY = "mc_cleaner_lang";
+  const I18N = {{
+    en: {{
+      docTitle: "Cleaning Schedule",
+      bannerTitle: "CLEANING SCHEDULE",
+      bannerSub: "Live Turnover & Availability Calendar",
+      windowsTitle: "Upcoming Cleaning Windows",
+      prevBtn: "\u2190 Prev",
+      todayBtn: "Today",
+      nextBtn: "Next \u2192",
+      legendOpen: "Open",
+      legendBooked: "Booked",
+      legendTurnover: "Same-Day Turnover",
+      legendHoliday: "\u2605 US Holiday",
+      weekdays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      noCheckouts: "No upcoming check-outs currently scheduled.",
+      sameDayBadge: "SAME-DAY TURNOVER",
+      sameDayClean: "Clean between",
+      sameDayMeta: "Guests Check-In at 4 pm",
+      dayWindowBadge: (n) => `${{n}}-DAY WINDOW`,
+      checkOutLabel: "Check-Out:",
+      checkInLabel: "Check-In:",
+      atTime: "at",
+      daysAvailableMeta: (n) => `${{n}} ${{n === 1 ? "Day" : "Days"}} Available to Clean`,
+      openWindowBadge: "OPEN WINDOW",
+      openAfterward: "Open calendar afterward",
+      flexibleClean: "Flexible Clean",
+      holidaysHeading: (monthName) => `${{monthName}} Holidays`,
+      holidayItemDate: (monthName, day) => `${{monthName}} ${{day}}`,
+      formatShortDate: (dow, m, d, t) => `${{t.weekdays[dow]}}, ${{t.monthsShort[m]}} ${{d}}`,
+      holidays: {{}}
+    }},
+    es: {{
+      docTitle: "Horario de Limpieza",
+      bannerTitle: "HORARIO DE LIMPIEZA",
+      bannerSub: "Calendario en Vivo de Limpieza y Disponibilidad",
+      windowsTitle: "Pr\u00f3ximas Fechas de Limpieza",
+      prevBtn: "\u2190 Ant",
+      todayBtn: "Hoy",
+      nextBtn: "Sig \u2192",
+      legendOpen: "Disponible",
+      legendBooked: "Reservado",
+      legendTurnover: "Mismo D\u00eda",
+      legendHoliday: "\u2605 Feriado EE. UU.",
+      weekdays: ["Dom", "Lun", "Mar", "Mi\u00e9", "Jue", "Vie", "S\u00e1b"],
+      months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+      monthsShort: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
+      noCheckouts: "No hay salidas pr\u00f3ximas programadas.",
+      sameDayBadge: "CAMBIO EL MISMO D\u00cdA",
+      sameDayClean: "Limpiar entre",
+      sameDayMeta: "Hu\u00e9spedes entran a las 4 pm",
+      dayWindowBadge: (n) => `VENTANA DE ${{n}} ${{n === 1 ? "D\u00cdA" : "D\u00cdAS"}}`,
+      checkOutLabel: "Salida:",
+      checkInLabel: "Entrada:",
+      atTime: "a las",
+      daysAvailableMeta: (n) => `${{n}} ${{n === 1 ? "d\u00eda disponible" : "d\u00edas disponibles"}} para limpiar`,
+      openWindowBadge: "VENTANA ABIERTA",
+      openAfterward: "Calendario abierto despu\u00e9s",
+      flexibleClean: "Limpieza flexible",
+      holidaysHeading: (monthName) => `Feriados de ${{monthName}}`,
+      holidayItemDate: (monthName, day) => `${{day}} de ${{monthName}}`,
+      formatShortDate: (dow, m, d, t) => `${{t.weekdays[dow]}}, ${{d}} ${{t.monthsShort[m]}}`,
+      holidays: {{
+        "New Year's Day": "A\u00f1o Nuevo",
+        "MLK Jr. Day": "D\u00eda de MLK Jr.",
+        "Presidents' Day": "D\u00eda de los Presidentes",
+        "Memorial Day": "D\u00eda de los Ca\u00eddos",
+        "Juneteenth": "Juneteenth",
+        "4th of July": "4 de Julio",
+        "Labor Day": "D\u00eda del Trabajo",
+        "Columbus Day": "D\u00eda de la Raza",
+        "Veterans Day": "D\u00eda de los Veteranos",
+        "Thanksgiving": "D\u00eda de Acci\u00f3n de Gracias",
+        "Christmas Day": "Navidad"
+      }}
+    }}
+  }};
+
+  function detectInitialLanguage() {{
+    try {{
+      const params = new URLSearchParams(window.location.search);
+      const q = (params.get("lang") || "").toLowerCase();
+      if (q === "es" || q === "en") return q;
+    }} catch (e) {{}}
+    try {{
+      const saved = localStorage.getItem(LANG_STORAGE_KEY);
+      if (saved === "es" || saved === "en") return saved;
+    }} catch (e) {{}}
+    const navLangs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || "en"];
+    for (const l of navLangs) {{
+      if (typeof l === "string" && l.toLowerCase().startsWith("es")) return "es";
+    }}
+    return "en";
+  }}
+
+  let currentLang = detectInitialLanguage();
 
   const now = new Date();
   const minYear = now.getFullYear(), minMonth = now.getMonth();
@@ -1152,28 +1267,68 @@ class CleanerCalendarBuilder:
     return new Date(y, m - 1, d);
   }}
   function formatShortDate(dateStr) {{
-    return parseLocal(dateStr).toLocaleDateString('en-US', {{ weekday: 'short', month: 'short', day: 'numeric' }});
+    const dt = parseLocal(dateStr);
+    const t = I18N[currentLang];
+    return t.formatShortDate(dt.getDay(), dt.getMonth(), dt.getDate(), t);
+  }}
+  function translateHoliday(name) {{
+    const map = I18N[currentLang].holidays;
+    return (map && map[name]) ? map[name] : name;
+  }}
+  function setLanguage(lang) {{
+    if (lang !== "en" && lang !== "es") return;
+    currentLang = lang;
+    try {{ localStorage.setItem(LANG_STORAGE_KEY, lang); }} catch (e) {{}}
+    applyLanguage();
+  }}
+  function applyLanguage() {{
+    const t = I18N[currentLang];
+    document.documentElement.lang = currentLang;
+    document.title = t.docTitle;
+    document.getElementById("bannerTitle").innerText = t.bannerTitle;
+    document.getElementById("bannerSub").innerText = t.bannerSub;
+    document.getElementById("windowsTitle").innerText = t.windowsTitle;
+    document.getElementById("prevBtn").innerText = t.prevBtn;
+    document.getElementById("todayBtn").innerText = t.todayBtn;
+    document.getElementById("nextBtn").innerText = t.nextBtn;
+    document.getElementById("legendOpen").innerText = t.legendOpen;
+    document.getElementById("legendBooked").innerText = t.legendBooked;
+    document.getElementById("legendTurnover").innerText = t.legendTurnover;
+    document.getElementById("legendHoliday").innerText = t.legendHoliday;
+    document.getElementById("updatedLabel").innerText = updatedText[currentLang] || updatedText.en;
+    document.getElementById("weekdaysRow").innerHTML = t.weekdays.map(w => `<div>${{w}}</div>`).join("");
+
+    const enBtn = document.getElementById("langBtnEn");
+    const esBtn = document.getElementById("langBtnEs");
+    enBtn.classList.toggle("active", currentLang === "en");
+    esBtn.classList.toggle("active", currentLang === "es");
+    enBtn.setAttribute("aria-pressed", currentLang === "en" ? "true" : "false");
+    esBtn.setAttribute("aria-pressed", currentLang === "es" ? "true" : "false");
+
+    renderWindowsList();
+    renderCalendar();
   }}
   function renderWindowsList() {{
+    const t = I18N[currentLang];
     const container = document.getElementById("windowsList");
     if (!upcomingWindows || upcomingWindows.length === 0) {{
-      container.innerHTML = `<div class="window-row"><div class="win-details">No upcoming check-outs currently scheduled.</div></div>`;
+      container.innerHTML = `<div class="window-row"><div class="win-details">${{t.noCheckouts}}</div></div>`;
       return;
     }}
     container.innerHTML = upcomingWindows.map(w => {{
       if (w.type === "SAME_DAY") {{
-        return `<div class="window-row urgent"><span class="win-badge urgent">SAME-DAY TURNOVER</span><div class="win-details"><strong>${{formatShortDate(w.checkout_date)}}</strong> &mdash; Clean between <strong>10 am &ndash; 4 pm</strong></div><span class="win-meta">Guests Check-In at 4 pm</span></div>`;
+        return `<div class="window-row urgent"><span class="win-badge urgent">${{t.sameDayBadge}}</span><div class="win-details"><strong>${{formatShortDate(w.checkout_date)}}</strong> &mdash; ${{t.sameDayClean}} <strong>10 am &ndash; 4 pm</strong></div><span class="win-meta">${{t.sameDayMeta}}</span></div>`;
       }} else if (w.type === "WINDOW") {{
-        const dayWordPlural = w.gap_days === 1 ? "Day" : "Days";
-        return `<div class="window-row"><span class="win-badge normal">${{w.gap_days}}-DAY WINDOW</span><div class="win-details"><strong>Check-Out:</strong> ${{formatShortDate(w.checkout_date)}} at 10 am &rarr; <strong>Check-In:</strong> ${{formatShortDate(w.next_checkin_date)}} at 4 pm</div><span class="win-meta">${{w.gap_days}} ${{dayWordPlural}} Available to Clean</span></div>`;
+        return `<div class="window-row"><span class="win-badge normal">${{t.dayWindowBadge(w.gap_days)}}</span><div class="win-details"><strong>${{t.checkOutLabel}}</strong> ${{formatShortDate(w.checkout_date)}} ${{t.atTime}} 10 am &rarr; <strong>${{t.checkInLabel}}</strong> ${{formatShortDate(w.next_checkin_date)}} ${{t.atTime}} 4 pm</div><span class="win-meta">${{t.daysAvailableMeta(w.gap_days)}}</span></div>`;
       }} else {{
-        return `<div class="window-row"><span class="win-badge normal">OPEN WINDOW</span><div class="win-details"><strong>Check-Out:</strong> ${{formatShortDate(w.checkout_date)}} at 10 am &rarr; Open calendar afterward</div><span class="win-meta">Flexible Clean</span></div>`;
+        return `<div class="window-row"><span class="win-badge normal">${{t.openWindowBadge}}</span><div class="win-details"><strong>${{t.checkOutLabel}}</strong> ${{formatShortDate(w.checkout_date)}} ${{t.atTime}} 10 am &rarr; ${{t.openAfterward}}</div><span class="win-meta">${{t.flexibleClean}}</span></div>`;
       }}
     }}).join("");
   }}
   function renderCalendar() {{
+    const t = I18N[currentLang];
     const year = current.getFullYear(), month = current.getMonth();
-    const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const monthNames = t.months;
     document.getElementById("monthLabel").innerText = monthNames[month] + " " + year;
     document.getElementById("prevBtn").style.display = (year < minYear || (year === minYear && month <= minMonth)) ? "none" : "inline-block";
 
@@ -1193,7 +1348,8 @@ class CleanerCalendarBuilder:
       const cell = document.createElement("div");
       const dateStr = `${{year}}-${{String(month + 1).padStart(2, '0')}}-${{String(d).padStart(2, '0')}}`;
       const info = dataMap[dateStr];
-      const holidayName = (info && info.holiday) ? info.holiday : (holidayCatalog[dateStr] || "");
+      const rawHoliday = (info && info.holiday) ? info.holiday : (holidayCatalog[dateStr] || "");
+      const holidayName = rawHoliday ? translateHoliday(rawHoliday) : "";
       let starHtml = "";
       if (holidayName) {{
         starHtml = `<span class="holiday-star" title="${{holidayName}}">★</span>`;
@@ -1223,7 +1379,7 @@ class CleanerCalendarBuilder:
 
     const holidayContainer = document.getElementById("monthlyHolidays");
     if (currentMonthHolidays.length > 0) {{
-      holidayContainer.innerHTML = `<div class="holiday-list-title">${{monthNames[month]}} Holidays</div><ul class="holiday-list">${{currentMonthHolidays.map(h => `<li class="holiday-item"><span style="color:var(--star-color);">★</span> ${{monthNames[month]}} ${{h.day}}: ${{h.name}}</li>`).join("")}}</ul>`;
+      holidayContainer.innerHTML = `<div class="holiday-list-title">${{t.holidaysHeading(monthNames[month])}}</div><ul class="holiday-list">${{currentMonthHolidays.map(h => `<li class="holiday-item"><span style="color:var(--star-color);">★</span> ${{t.holidayItemDate(monthNames[month], h.day)}}: ${{h.name}}</li>`).join("")}}</ul>`;
       holidayContainer.style.display = "block";
     }} else {{
       holidayContainer.style.display = "none";
@@ -1236,8 +1392,7 @@ class CleanerCalendarBuilder:
     renderCalendar();
   }}
   function goToday() {{ current = new Date(minYear, minMonth, 1); renderCalendar(); }}
-  renderWindowsList();
-  renderCalendar();
+  applyLanguage();
 </script>
 </body>
 </html>"""
