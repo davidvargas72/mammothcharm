@@ -4,35 +4,6 @@ PRODID:-//Mika Data Solutions//Mammoth Mountain Events//EN
 X-WR-CALNAME:Mammoth Mountain Events
 X-WR-TIMEZONE:America/Los_Angeles
 BEGIN:VEVENT
-SUMMARY:Austin Hope Wine Tasting at The Lakefront
-DTSTART;VALUE=DATE:20261118
-DTEND;VALUE=DATE:20261119
-UID:austinhopewinetastingatthelakefront-20261118@mikadatasolutions.com
-DESCRIPTION:Event Hours: 1:00 PM - 4:00 PM\n\nDetails: Nov 18 Wed Austin H
- ope Wine Tasting at The Lakefront Nov 18 / 1:00 PM - 4:00 PM Enjoy five wi
- nes from Austin Hope Winery in Paso Robles\, California\, each thoughtfull
- y paired with a selection of appetizers and amuse-bouches Wine Tasting\n\n
- Event Link: https://www.mammothmountain.com/things-to-do/events/austin-hop
- e-wine-dinner
-LOCATION:Mammoth Mountain\, CA
-URL:https://www.mammothmountain.com/things-to-do/events/austin-hope-wine-d
- inner
-END:VEVENT
-BEGIN:VEVENT
-SUMMARY:Full Moon Snowshoe Tour
-DTSTART;VALUE=DATE:20261121
-DTEND;VALUE=DATE:20261122
-UID:fullmoonsnowshoetour-20261121@mikadatasolutions.com
-DESCRIPTION:Event Hours: 6:15 PM - 8:00 PM\n\nDetails: Nov 21 Sat Full Moo
- n Snowshoe Tour Nov 21 / 6:15 PM - 8:00 PM Enjoy a guided snowshoe tour th
- rough a moonlit winter wonderland at Tamarack Cross-Country Ski Center. Fu
- ll Moon Tour\n\nEvent Link: https://www.mammothmountain.com/things-to-do/e
- vents/tamarack-full-moon-snowshoe-tours
-LOCATION:Mammoth Mountain\, CA
-URL:https://www.mammothmountain.com/things-to-do/events/tamarack-full-moon
- -snowshoe-tours
-END:VEVENT
-BEGIN:VEVENT
 SUMMARY:Full Moon Snowshoe Tour
 DTSTART;VALUE=DATE:20261122
 DTEND;VALUE=DATE:20261123
@@ -203,6 +174,20 @@ LOCATION:Mammoth Mountain\, CA
 URL:https://www.mammothmountain.com/things-to-do/events/night-of-lights
 END:VEVENT
 BEGIN:VEVENT
+SUMMARY:WR FIS Open\, 2 SL / 2 GS
+DTSTART;VALUE=DATE:20261215
+DTEND;VALUE=DATE:20261219
+UID:wrfisopen2sl2gs-20261215@mikadatasolutions.com
+DESCRIPTION:Event Hours: Dec 15 (8:00 AM) - Dec 18 (4:00 PM)\n\nDetails: D
+ ec 15 Tue WR FIS Open\, 2 SL / 2 GS Dec 15 / 8:00 AM - Dec 18 / 4:00 PM U.
+ S. Ski and Snowboarding & Far West Skiing are hosting the WR FIS Open at M
+ ammoth Mountain. WR FIS Open\n\nEvent Link: https://www.mammothmountain.co
+ m/things-to-do/events/race-department/dec-15-wr-fis-open
+LOCATION:Mammoth Mountain\, CA
+URL:https://www.mammothmountain.com/things-to-do/events/race-department/de
+ c-15-wr-fis-open
+END:VEVENT
+BEGIN:VEVENT
 SUMMARY:June Mountain Opening Day
 DTSTART;VALUE=DATE:20261219
 DTEND;VALUE=DATE:20261220
@@ -215,6 +200,21 @@ DESCRIPTION:Event Hours: 7:30 AM - 4:00 PM\n\nDetails: Dec 19 Sat June Mou
 LOCATION:Mammoth Mountain\, CA
 URL:https://www.mammothmountain.com/things-to-do/events/june-mountain-open
  ing-day
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Clifford Mann Classic FW Open\, 2 GS
+DTSTART;VALUE=DATE:20261219
+DTEND;VALUE=DATE:20261221
+UID:cliffordmannclassicfwopen2gs-20261219@mikadatasolutions.com
+DESCRIPTION:Event Hours: Dec 19 (8:00 AM) - Dec 20 (4:00 PM)\n\nDetails: D
+ ec 19 Sat Clifford Mann Classic FW Open\, 2 GS Dec 19 / 8:00 AM - Dec 20 /
+  4:00 PM U.S. Ski and Snowboarding & Far West Skiing host the Clifford Man
+ n Classic ski race at Mammoth Mountain. Clifford Mann Classic\n\nEvent Lin
+ k: https://www.mammothmountain.com/things-to-do/events/race-department/dec
+ -19-clifford-mann-classic
+LOCATION:Mammoth Mountain\, CA
+URL:https://www.mammothmountain.com/things-to-do/events/race-department/de
+ c-19-clifford-mann-classic
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Full Moon Snowshoe Tour
@@ -404,6 +404,21 @@ URL:https://www.mammothmountain.com/things-to-do/events/unbound-series/slo
  pestyle-1
 END:VEVENT
 BEGIN:VEVENT
+SUMMARY:The Minaret Challenge\, 2 SL / 1 GS
+DTSTART;VALUE=DATE:20270108
+DTEND;VALUE=DATE:20270111
+UID:theminaretchallenge2sl1gs-20270108@mikadatasolutions.com
+DESCRIPTION:Event Hours: Jan 8 (8:00 AM) - Jan 10 (4:00 PM)\n\nDetails: Ja
+ n 8 Fri The Minaret Challenge\, 2 SL / 1 GS Jan 8 / 8:00 AM - Jan 10 / 4:0
+ 0 PM U.S. Ski & Snowboarding and Far West Skiing host the Minaret Challeng
+ e – a Far West U14 Qualifier ski race at Mammoth Mountain. Minaret Chall
+ enge\n\nEvent Link: https://www.mammothmountain.com/things-to-do/events/ra
+ ce-department/jan-08-minaret-challenge
+LOCATION:Mammoth Mountain\, CA
+URL:https://www.mammothmountain.com/things-to-do/events/race-department/ja
+ n-08-minaret-challenge
+END:VEVENT
+BEGIN:VEVENT
 SUMMARY:Unbound Series Slopestyle 2
 DTSTART;VALUE=DATE:20270116
 DTEND;VALUE=DATE:20270117
@@ -517,6 +532,21 @@ DESCRIPTION:Event Hours: 6:30 PM - 8:15 PM\n\nDetails: Jan 21 Thu Full Moo
 LOCATION:Mammoth Mountain\, CA
 URL:https://www.mammothmountain.com/things-to-do/events/tamarack-full-moon
  -snowshoe-tours
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Dave McCoy Memorial FW Masters\, 4 SG / 1 GS
+DTSTART;VALUE=DATE:20270122
+DTEND;VALUE=DATE:20270125
+UID:davemccoymemorialfwmasters4sg1gs-20270122@mikadatasolutions.com
+DESCRIPTION:Event Hours: Jan 22 (8:00 AM) - Jan 24 (4:00 PM)\n\nDetails: J
+ an 22 Fri Dave McCoy Memorial FW Masters\, 4 SG / 1 GS Jan 22 / 8:00 AM - 
+ Jan 24 / 4:00 PM U.S. Ski and Snowboarding & Far West Skiing host the Dave
+  McCoy Memorial ski race at Mammoth Mountain. Masters Speed Series\n\nEven
+ t Link: https://www.mammothmountain.com/things-to-do/events/race-departmen
+ t/jan-22-masters-dave-mccoy-memorial
+LOCATION:Mammoth Mountain\, CA
+URL:https://www.mammothmountain.com/things-to-do/events/race-department/ja
+ n-22-masters-dave-mccoy-memorial
 END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Unbound Series Slalom & Giant Slalom 2
@@ -781,6 +811,20 @@ URL:https://www.mammothmountain.com/things-to-do/events/unbound-series/boa
  rdercross-ski-cross-2
 END:VEVENT
 BEGIN:VEVENT
+SUMMARY:Far West Sierra Cup\, 2 Big G
+DTSTART;VALUE=DATE:20270227
+DTEND;VALUE=DATE:20270301
+UID:farwestsierracup2bigg-20270227@mikadatasolutions.com
+DESCRIPTION:Event Hours: Feb 27 (8:00 AM) - Feb 28 (4:00 PM)\n\nDetails: F
+ eb 27 Sat Far West Sierra Cup\, 2 Big G Feb 27 / 8:00 AM - Feb 28 / 4:00 P
+ M U.S. Ski and Snowboarding & Far West Skiing host the Sierra Cup\, a U10 
+ ski race at Mammoth Mountain. Sierra Cup\n\nEvent Link: https://www.mammot
+ hmountain.com/things-to-do/events/race-department/feb-28-sierra-cup
+LOCATION:Mammoth Mountain\, CA
+URL:https://www.mammothmountain.com/things-to-do/events/race-department/fe
+ b-28-sierra-cup
+END:VEVENT
+BEGIN:VEVENT
 SUMMARY:Sunset Snowshoe Tour
 DTSTART;VALUE=DATE:20270304
 DTEND;VALUE=DATE:20270305
@@ -836,5 +880,77 @@ DESCRIPTION:Event Hours: 7:30 AM - 9:30 AM\n\nDetails: Mar 21 Sun Ikon Pas
 LOCATION:Mammoth Mountain\, CA
 URL:https://www.mammothmountain.com/things-to-do/events/ikon-pass-holder-e
  arly-ups/mar
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:U
+DTSTART;VALUE=DATE:20270331
+DTEND;VALUE=DATE:20270408
+UID:u-20270331@mikadatasolutions.com
+DESCRIPTION:Event Hours: Mar 31 (8:30 AM) - Apr 7 (4:00 PM)\n\nDetails: Ma
+ r 31 Wed U.S. Alpine Championships Mar 31 / 8:30 AM - Apr 7 / 4:00 PM U.S.
+  Ski and Snowboarding & Far West Skiing are hosting the U.S. Alpine Champi
+ onships at Mammoth Mountain. U.S. Alpine Championships\n\nEvent Link: http
+ s://www.mammothmountain.com/things-to-do/events/race-department/mar-31-us-
+ alpine-championships
+LOCATION:Mammoth Mountain\, CA
+URL:https://www.mammothmountain.com/things-to-do/events/race-department/ma
+ r-31-us-alpine-championships
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Far West Women's Super G Finals\, U14 TR / 2 SG
+DTSTART;VALUE=DATE:20270417
+DTEND;VALUE=DATE:20270419
+UID:farwestwomenssupergfinalsu14tr2sg-20270417@mikadatasolutions.com
+DESCRIPTION:Event Hours: Apr 17 (8:00 AM) - Apr 18 (4:00 PM)\n\nDetails: A
+ pr 17 Sat Far West Women's Super G Finals\, U14 TR / 2 SG Apr 17 / 8:00 AM
+  - Apr 18 / 4:00 PM U.S. Ski and Snowboarding & Far West Skiing  hosts the
+  Far West Super G Finals at Mammoth Mountain. Far West Super G Finals\n\nE
+ vent Link: https://www.mammothmountain.com/things-to-do/events/race-depart
+ ment/apr-17-womens-super-g-finals
+LOCATION:Mammoth Mountain\, CA
+URL:https://www.mammothmountain.com/things-to-do/events/race-department/ap
+ r-17-womens-super-g-finals
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Far West Men's Super G Finals\, U14 TR / 2 SG
+DTSTART;VALUE=DATE:20270419
+DTEND;VALUE=DATE:20270421
+UID:farwestmenssupergfinalsu14tr2sg-20270419@mikadatasolutions.com
+DESCRIPTION:Event Hours: Apr 19 (8:00 AM) - Apr 20 (4:00 PM)\n\nDetails: A
+ pr 19 Mon Far West Men's Super G Finals\, U14 TR / 2 SG Apr 19 / 8:00 AM -
+  Apr 20 / 4:00 PM U.S. Ski and Snowboarding & Far West Skiing  hosts the F
+ ar West Super G Finals at Mammoth Mountain. Far West Super G Finals\n\nEve
+ nt Link: https://www.mammothmountain.com/things-to-do/events/race-departme
+ nt/apr-19-mens-super-g-finals
+LOCATION:Mammoth Mountain\, CA
+URL:https://www.mammothmountain.com/things-to-do/events/race-department/ap
+ r-19-mens-super-g-finals
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Mammoth Trailfest
+DTSTART;VALUE=DATE:20270923
+DTEND;VALUE=DATE:20270927
+UID:mammothtrailfest-20270923@mikadatasolutions.com
+DESCRIPTION:Event Hours: Sep 23 (8:00 AM) - Sep 26 (9:00 PM)\n\nDetails: S
+ ep 23 Thu Mammoth Trailfest. Presented by Craft Sep 23 / 8:00 AM - Sep 26 
+ / 9:00 PM Enjoy a weekend of community focused trail running across the to
+ p of California\, including a 50K\, 26K\, 10K\, Dragon's Back Ascent\, and
+  Kid's 1K. Mammoth Trailfest\n\nEvent Link: https://www.mammothmountain.co
+ m/things-to-do/events/mammoth-trail-fest
+LOCATION:Mammoth Mountain\, CA
+URL:https://www.mammothmountain.com/things-to-do/events/mammoth-trail-fest
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:The Mammoth presented by Craft
+DTSTART;VALUE=DATE:20261001
+DTEND;VALUE=DATE:20261006
+UID:themammothpresentedbycraft-20261001@mikadatasolutions.com
+DESCRIPTION:Event Hours: Oct 1 (8:00 AM) - Oct 5 (9:00 PM)\n\nDetails: Oct
+  1 Fri The Mammoth presented by Craft Oct 1 / 8:00 AM - Oct 5 / 9:00 PM Th
+ e Mammoth is an epic 214 mile footrace through the Eastern Sierra\, starti
+ ng and finishing in Mammoth Lakes\, California. The Mammoth\n\nEvent Link:
+  https://www.mammothmountain.com/things-to-do/events/the-mammoth
+LOCATION:Mammoth Mountain\, CA
+URL:https://www.mammothmountain.com/things-to-do/events/the-mammoth
 END:VEVENT
 END:VCALENDAR
